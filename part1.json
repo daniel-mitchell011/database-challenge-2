@@ -1,0 +1,22 @@
+{
+  "books": {
+    "_id": "some_book",
+    "title": "lorem ipsum",
+    "page_count": "999",
+    "isbn": "978-0-00-000000-00",
+    "genre": "mystery",
+    "book_authors": [{ "author_id": "some_author" }],
+    "book_reviews": [{ "customer_review_id": "some_review" }]
+  },
+  "authors": {
+    "_id": "some_author",
+    "first_name": "John",
+    "last_name": "Doe",
+    "authors_books": [{ "book_id": "some_book" }]
+  },
+  "customer_reviews": {
+    "_id": "some_review",
+    "review_content": "some review",
+    "rating": 0
+  }
+}

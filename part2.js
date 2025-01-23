@@ -3,10 +3,8 @@
 const { MongoClient } = require("mongodb");
 
 // Must supply username and password at <username> and <db_password>, respectively.
-// uri =
-//   "mongodb+srv://<username>:<db_password>@cluster0.ftuzl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 uri =
-  "mongodb+srv://admin:mitchell@cluster0.ftuzl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+  "mongodb+srv://<username>:<db_password>@cluster0.ftuzl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 const client = new MongoClient(uri);
 client.connect();

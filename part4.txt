@@ -1,0 +1,6 @@
+I would get a frequency list of the queries being used (these stats are available
+in Atlas, thankfully) and consider putting indexes on the most queried fields.
+
+Another problem could be slow access times from the referenced fields
+(e.g., book_authors or book_reviews in books), so I might make those
+embedded instead.

@@ -6,7 +6,7 @@
     "isbn": "978-0-00-000000-00",
     "genre": "mystery",
     "book_authors": [{ "author_id": "some_author" }],
-    "book_reviews": [{ "customer_review_id": "some_review" }]
+    "book_reviews": [{ "customer_review_id": "some_review", "rating": 0 }]
   },
   "authors": {
     "_id": "some_author",

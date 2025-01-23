@@ -10,33 +10,34 @@ const myDB = client.db("BookStore");
 const books_collection = myDB.collection("books");
 const authors_collection = myDB.collection("authors");
 
+// This pipeline works as intended, books are grouped by genre
+// and total books in each genre are counted.
 const pipeline1 = [{ $group: { _id: "$genre", totalBooks: { $sum: 1 } } }];
 
 const pipeline2 = [
   {
     $lookup: {
       from: "customer_reviews",
-      localField: "customer_review_id",
+      localField: "book_reviews",
       foreignField: "_id",
-      as: "customer_review_details",
+      as: "rev",
     },
   },
-  {
-    $addFields: {
-      customer_review_details: {
-        $arrayElemAt: ["$customer_review_details", 1],
-      },
-    },
-  },
-  // This would be easy if I could just get the rating values to populate for $avg...
+  // This would be easy if I could just get the rating values
+  // to populate for $avg...
   {
     $group: {
       _id: "$title",
-      avg_rating: { $avg: "$customer_review_details.rating" },
+      avg_rating: { $avg: "$rev.rating" },
     },
   },
 ];
 
+// This pipeline does not work as intended. For some reason,
+// the id gets sorted from least to greatest and ids get rolled
+// up despite the limit being set to three.
+// Using the sample data I provide in part2.js, only Hector Garcia-Molina
+// is populated with _id value of 1.
 const pipeline3 = [
   {
     $limit: 3,
@@ -44,14 +45,16 @@ const pipeline3 = [
   {
     $project: {
       _id: "$first_name",
+      first_name: 1,
+      last_name: 1,
       totalBooks: { $size: "$authors_books" },
     },
   },
   {
-    $set: {
-      name: {
-        $concat: ["$first_name", ",", "$last_name"],
-      },
+    $group: {
+      _id: "$totalBooks",
+      firstName: { $first: "$first_name" },
+      lastName: { $first: "$last_name" },
     },
   },
 ];

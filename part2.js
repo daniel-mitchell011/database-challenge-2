@@ -25,7 +25,7 @@ const books = [
       { author_id: "author2" },
       { author_id: "author3" },
     ],
-    book_reviews: [{ customer_review_id: "review1" }],
+    book_reviews: [{ customer_review_id: 1 }],
   },
   {
     _id: "book2",
@@ -34,7 +34,7 @@ const books = [
     isbn: "978-1-250-25194-7",
     genre: "Fantasy",
     book_authors: [{ author_id: "author4" }],
-    book_reviews: [{ customer_review_id: "review2" }],
+    book_reviews: [{ customer_review_id: 2 }],
   },
   {
     _id: "book3",
@@ -43,7 +43,7 @@ const books = [
     isbn: "978-1-250-25192-3",
     genre: "Fantasy",
     book_authors: [{ author_id: "author4" }],
-    book_reviews: [{ customer_review_id: "review3" }],
+    book_reviews: [{ customer_review_id: 3 }],
   },
   {
     _id: "book4",
@@ -52,7 +52,7 @@ const books = [
     isbn: "978-1-250-25149-7",
     genre: "Fantasy",
     book_authors: [{ author_id: "author4" }],
-    book_reviews: [{ customer_review_id: "review4" }],
+    book_reviews: [{ customer_review_id: 4 }],
   },
   {
     _id: "book5",
@@ -61,7 +61,7 @@ const books = [
     isbn: "978-0-8248-3702-0",
     genre: "Japanese Language",
     book_authors: [{ author_id: "author5" }],
-    book_reviews: [{ customer_review_id: "review5" }],
+    book_reviews: [{ customer_review_id: 5 }],
   },
 ];
 
@@ -104,14 +104,14 @@ const authors = [
 
 const reviews = [
   {
-    _id: "review1",
+    _id: 1,
     review_content: "In-depth coverage of databases.",
     rating: 4,
   },
-  { _id: "review2", review_content: "Rand is cool.", rating: 5 },
-  { _id: "review3", review_content: "Spectacular.", rating: 3 },
-  { _id: "review4", review_content: "Epic.", rating: 3 },
-  { _id: "review5", review_content: "Lots of exotic kanji.", rating: 4 },
+  { _id: 2, review_content: "Rand is cool.", rating: 5 },
+  { _id: 3, review_content: "Spectacular.", rating: 3 },
+  { _id: 4, review_content: "Epic.", rating: 3 },
+  { _id: 5, review_content: "Lots of exotic kanji.", rating: 4 },
 ];
 
 const connectToDatabase = async () => {

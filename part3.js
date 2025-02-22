@@ -6,7 +6,7 @@ uri =
 
 const client = new MongoClient(uri);
 client.connect();
-const myDB = client.db("BookStore");
+const myDB = client.db("BookStoreEmbedded");
 const books_collection = myDB.collection("books");
 const authors_collection = myDB.collection("authors");
 
@@ -15,48 +15,32 @@ const authors_collection = myDB.collection("authors");
 const pipeline1 = [{ $group: { _id: "$genre", totalBooks: { $sum: 1 } } }];
 
 const pipeline2 = [
-  {
-    $lookup: {
-      from: "customer_reviews",
-      localField: "book_reviews",
-      foreignField: "_id",
-      as: "rev",
-    },
-  },
-  // This would be easy if I could just get the rating values
-  // to populate for $avg...
+  { $unwind: { path: "$book_reviews" } },
   {
     $group: {
       _id: "$title",
-      avg_rating: { $avg: "$rev.rating" },
+      total: { $avg: "$book_reviews.rating" },
     },
   },
 ];
 
-// This pipeline does not work as intended. For some reason,
-// the id gets sorted from least to greatest and ids get rolled
-// up despite the limit being set to three.
-// Using the sample data I provide in part2.js, only Hector Garcia-Molina
-// is populated with _id value of 1.
 const pipeline3 = [
-  {
-    $limit: 3,
-  },
-  {
-    $project: {
-      _id: "$first_name",
-      first_name: 1,
-      last_name: 1,
-      totalBooks: { $size: "$authors_books" },
-    },
-  },
+  // {
+  //   $limit: 3,
+  // },
+  { $unwind: "$book_authors" },
   {
     $group: {
-      _id: "$totalBooks",
-      firstName: { $first: "$first_name" },
-      lastName: { $first: "$last_name" },
+      _id: {
+        $concat: ["$book_authors.last_name", ", ", "$book_authors.first_name"],
+      },
+      total_books_written: { $sum: 1 },
     },
   },
+  {
+    $sort: { total_books_written: -1 },
+  },
+  { $limit: 3 },
 ];
 
 const connectToDatabase = async () => {
@@ -80,7 +64,7 @@ const main = async () => {
       console.log(doc);
     }
     console.log();
-    aggCursor = authors_collection.aggregate(pipeline3);
+    aggCursor = books_collection.aggregate(pipeline3);
     for await (const doc of aggCursor) {
       console.log(doc);
     }
